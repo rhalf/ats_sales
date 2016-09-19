@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="modal-header">
+                <h3 class="modal-title">Company ({{company.name | limitTo : 15}})</h3>
+            </div>
+
+            <div class="modal-body">
+
+                <uib-tabset>
+                    <uib-tab index="0" heading="Address">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        Latitude
+                                    </div>
+                                    <input type="text" class="form-control" ng-model="companyAddress.latitude" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        Longitude
+                                    </div>
+                                    <input type="text" class="form-control" ng-model="companyAddress.longitude" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        Details
+                                    </div>
+                                    <input type="text" class="form-control" ng-model="companyAddress.detail" disabled />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-block" ng-click="saveCompanyAddress()">Save</button>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="minimap"></div>
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <!-- Contacts -->
+                    <uib-tab index="1" heading="Contacts">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 class="modal-title">Contact ({{ contacts.length }})</h3>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" ng-model="selectedContact" placeholder="Search" />
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="selectedContact = ''">
+                                            <span class="glyphicon glyphicon-remove" />
+                                        </button>
+                                        <button class="btn btn-default" type="button" ng-click="addContact()">
+                                            <span class="glyphicon glyphicon-plus" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <table class="table table-responsive table-condensed table-hover small">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th class="hidden-xs">Position</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th class="hidden-xs">Fax</th>
+                                    <th class="hidden-xs">Telephone</th>
+                                    <th class="hidden-xs">Nation</th>
+                                    <th>Options</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="contact in contacts | filter : selectedContact | startFromFilter : (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize | limitTo : paginationFactory.pageSize">
+                                    <td>{{$index + 1 + (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize }}</td>
+                                    <td>{{contact.name | limitTo : 30 }}</td>
+                                    <td class="hidden-xs">{{contact.position | limitTo : 30}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact.mobile}}</td>
+                                    <td class="hidden-xs">{{contact.fax}}</td>
+                                    <td class="hidden-xs">{{contact.telephone}}</td>
+                                    <td class="hidden-xs">{{contact.nation.nameShort}}</td>
+                                    <td>
+                                        <button ng-click="editContact(contact)"><span class="glyphicon glyphicon-edit" /></button>
+                                        <button ng-click="deleteContact(contact)"><span class="glyphicon glyphicon-trash" /></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr />
+                        <uib-pagination class="pagination-sm"
+                                        boundary-links="true"
+                                        boundary-link-numbers="true"
+                                        max-size="3"
+                                        rotate="true"
+                                        force-ellipses="true"
+                                        total-items="contacts.length"
+                                        ng-model="paginationFactory.currentPage"
+                                        items-per-page="paginationFactory.pageSize">
+
+                        </uib-pagination>
+                    </uib-tab>
+                    <uib-tab index="2" heading="Products">
+                        <!-- Products -->
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3 class="modal-title">Products ({{ products.length }})</h3>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" ng-model="selectedProduct" placeholder="Search" />
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="selectedProduct = ''">
+                                            <span class="glyphicon glyphicon-remove" />
+                                        </button>
+                                        <button class="btn btn-default" type="button" ng-click="addProduct()">
+                                            <span class="glyphicon glyphicon-plus" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <table class="table table-responsive table-condensed table-hover small">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Options</th>
+                            </thead>
+                            <tbody>
+
+                                <tr ng-repeat="product in products | filter : selectedProduct | startFromFilter : (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize | limitTo : paginationFactory.pageSize">
+                                    <td>{{$index + 1 + (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize }}</td>
+                                    <td>{{product.name | limitTo : 30 }}</td>
+                                    <td>{{product.desc | limitTo : 30}}</td>
+
+                                    <td>
+                                        <button ng-click="editProduct(product)"><span class="glyphicon glyphicon-edit" /></button>
+                                        <button ng-click="deleteProduct(product)"><span class="glyphicon glyphicon-trash" /></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr />
+                        <uib-pagination class="pagination-sm"
+                                        boundary-links="true"
+                                        boundary-link-numbers="true"
+                                        max-size="3"
+                                        rotate="true"
+                                        force-ellipses="true"
+                                        total-items="products.length"
+                                        ng-model="paginationFactory.currentPage"
+                                        items-per-page="paginationFactory.pageSize">
+                        </uib-pagination>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        #minimap {
+            height: 300px;
+            width: 100%;
+        }
+    </style>
+
+</body>
+</html>

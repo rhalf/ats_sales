@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="companiesController">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="modal-header">
+                    <div class="col-md-4">
+                        <h3 class="modal-title">Companies ({{ companies.length }})</h3>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" ng-model="selected" placeholder="Search" />
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" ng-click="selected = ''">
+                                    <span class="glyphicon glyphicon-remove" />
+                                </button>
+                                <button class="btn btn-default" type="button" ng-click="add()">
+                                    <span class="glyphicon glyphicon-plus" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-responsive table-condensed table-hover small">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th class="hidden-xs">Description</th>
+                                <th class="hidden-xs">DtCreated</th>
+                                <th class="hidden-xs">Status</th>
+                                <th class="hidden-xs">Field</th>
+                                <th>AddedBy</th>
+                                <th>Options</th>
+                        </thead>
+                        <tbody>
+
+                            <tr ng-repeat="company in companies | filter : selected | startFromFilter : (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize | limitTo : paginationFactory.pageSize">
+                                <td>{{$index + 1 + (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize }}</td>
+                                <td>{{company.name | limitTo : 15 }}</td>
+                                <td class="hidden-xs">{{company.desc | limitTo : 15}}</td>
+                                <td class="hidden-xs">{{company.dtCreated | dateFilter : 'date'}}</td>
+                                <td class="hidden-xs">{{company.status.name }}</td>
+                                <td class="hidden-xs">{{company.field.name }}</td>
+                                <td>{{company.user.name }}</td>
+                                <td>
+                                    <button ng-click="edit(company)"><span class="glyphicon glyphicon-edit" /></button>
+                                    <button ng-click="select(company)"><span class="glyphicon glyphicon-cog" /></button>
+                                    <button ng-click="delete(company)" ng-show="sessionUser.privilege.value < 4"><span class="glyphicon glyphicon-trash" /></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <uib-pagination class="pagination-sm"
+                                    boundary-links="true"
+                                    boundary-link-numbers="true"
+                                    max-size="3"
+                                    rotate="true"
+                                    force-ellipses="true"
+                                    total-items="companies.length"
+                                    ng-model="paginationFactory.currentPage"
+                                    items-per-page="paginationFactory.pageSize">
+                    </uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="uib-alert">
+        <uib-alert ng-repeat="alert in alertFactory.items" close="alertFactory.remove($index)" dismiss-on-timeout="{{alertFactory.timeout}}" type="{{alert.type}}">{{alert.message}}</uib-alert>
+    </div>
+
+    <style type="text/css">
+    .uib-alert {
+        position: fixed;
+        width: 100%;
+        padding: 5%;
+        height: 20%;
+    }    
+    </style>
+</body>
+</html>

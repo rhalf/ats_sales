@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="modal-header">
+                <h3 class="modal-title">Contact (Add)</h3>
+            </div>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <br />
+
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Name</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" ng-model="contact.name" />
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Position</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" ng-model="contact.position" />
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Email</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="email" ng-model="contact.email" />
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Mobile</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" ng-model="contact.mobile" placeholder="ex. +97400000000"/>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Fax</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" ng-model="contact.fax" placeholder="ex. +97400000000" />
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Telephone</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" ng-model="contact.telephone" placeholder="ex. +97400000000" />
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">Nation</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select class="form-control"
+                                        ng-model="contact.nation"
+                                        ng-init="contact.nation = nations[1]"
+                                        ng-options="nation as nation.nameShort for nation in nations track by nation.id" />
+                            </div>
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="save()">Save</button>
+            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+        </div>
+    </div>
+</body>
+</html>

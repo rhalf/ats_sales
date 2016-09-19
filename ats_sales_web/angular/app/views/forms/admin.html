@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="adminController">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="modal-header">
+                    <div class="col-md-4">
+                        <h3 class="modal-title">Admin</h3>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <!--<div class="input-group input-group-sm">
+                            <input type="text" class="form-control" ng-model="selected" placeholder="Search" />
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" ng-click="selected = ''">
+                                    <span class="glyphicon glyphicon-remove" />
+                                </button>
+                                <button class="btn btn-default" type="button" ng-click="add()">
+                                    <span class="glyphicon glyphicon-plus" />
+                                </button>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <uib-tabset>
+                        <uib-tab index="0" heading="User">
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="modal-title">User ({{ users.length }})</h3>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" ng-model="selectedUser" placeholder="Search" />
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="selectedUser = ''">
+                                                <span class="glyphicon glyphicon-remove" />
+                                            </button>
+                                            <button class="btn btn-default" type="button" ng-click="addUser()">
+                                                <span class="glyphicon glyphicon-plus" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <table class="table table-responsive table-condensed table-hover small">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th class="hidden-xs">DtCreated</th>
+                                        <th class="hidden-xs">DtRenewed</th>
+                                        <th class="hidden-xs">DtExpired</th>
+                                        <th>Status</th>
+                                        <th>Privilege</th>
+                                        <th class="hidden-xs">hash</th>
+                                        <th class="hidden-xs">email</th>
+                                        <th>Options</th>
+</thead>
+                                <tbody>
+                                    <tr ng-repeat="user in users | filter : selectedUser | startFromFilter : (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize | limitTo : paginationFactory.pageSize">
+                                        <td>{{$index + 1 + (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize }}</td>
+                                        <td>{{user.name | limitTo : 30 }}</td>
+                                        <td class="hidden-xs">{{user.dtCreated | dateFilter : 'date'}}</td>
+                                        <td class="hidden-xs">{{user.dtRenewed | dateFilter : 'date'}}</td>
+                                        <td class="hidden-xs">{{user.dtExpired | dateFilter : 'date'}}</td>
+                                        <td>{{user.status.name }}</td>
+                                        <td>{{user.privilege.name }}</td>
+                                        <td class="hidden-xs">{{user.hash}}</td>
+                                        <td class="hidden-xs">{{user.email}}</td>
+                                        <td>
+                                            <button ng-click="editUser(user)"><span class="glyphicon glyphicon-edit" /></button>
+                                            <button ng-click="changeUserPassword(user)"><span class="glyphicon glyphicon-asterisk" /></button>
+                                            <button ng-click="deleteUser(user)"><span class="glyphicon glyphicon-trash" /></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <uib-pagination class="pagination-sm"
+                                            boundary-links="true"
+                                            boundary-link-numbers="true"
+                                            max-size="3"
+                                            rotate="true"
+                                            force-ellipses="true"
+                                            total-items="users.length"
+                                            ng-model="paginationFactory.currentPage"
+                                            items-per-page="paginationFactory.pageSize">
+                            </uib-pagination>
+                        </uib-tab>
+                        <uib-tab index="1" heading="UserOnline">
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h3 class="modal-title">UserOnline ({{ usersOnline.length }})</h3>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" ng-model="selectedUserOnline" placeholder="Search" />
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="selectedUserOnline = ''">
+                                                <span class="glyphicon glyphicon-remove" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <table class="table table-responsive table-condensed table-hover small">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>DtCreated</th>
+                                        <th>Ip</th>
+                                        <th>Options</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="userOnline in usersOnline | filter : selectedUserOnline | startFromFilter : (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize | limitTo : paginationFactory.pageSize">
+                                        <td>{{$index + 1 + (paginationFactory.currentPage - 1 ) * paginationFactory.pageSize }}</td>
+                                        <td>{{userOnline.user.name | limitTo : 30 }}</td>
+                                        <td>{{userOnline.dtCreated | dateFilter }}</td>
+                                        <td>{{userOnline.ip }}</td>
+                                        <td>
+                                            <button ng-click="load()"><span class="glyphicon glyphicon-refresh" /></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <uib-pagination class="pagination-sm"
+                                            boundary-links="true"
+                                            boundary-link-numbers="true"
+                                            max-size="3"
+                                            rotate="true"
+                                            force-ellipses="true"
+                                            total-items="usersOnline.length"
+                                            ng-model="paginationFactory.currentPage"
+                                            items-per-page="paginationFactory.pageSize">
+                            </uib-pagination>
+                        </uib-tab>
+                      
+                    </uib-tabset>
+                </div>
+
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        #map {
+            position: relative;
+            width: 100%;
+            min-height: 700px;
+        }
+    </style>
+
+</body>
+</html>
